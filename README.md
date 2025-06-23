@@ -1,4 +1,4 @@
-# Panekkatt Money Tracker
+# Money Tracker
 
 A modern financial management application for Panekkatt Oil Mill with transaction tracking, reporting, and financial analytics.
 
