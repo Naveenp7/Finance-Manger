@@ -1,30 +1,53 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
+
+// Components
 import Navbar from './components/Navbar';
+import PrivateRoute from './components/PrivateRoute';
+import NetworkStatus from './components/NetworkStatus';
+import AIAgentModal from './components/aiAgentModal';
+
+// Pages
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Reports from './pages/Reports';
-import Profile from './pages/Profile';
 import Categories from './pages/Categories';
+import Profile from './pages/Profile';
 import AiInsights from './pages/AiInsights';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import PrivateRoute from './components/PrivateRoute';
-import NetworkStatus from './components/NetworkStatus';
-import { AuthProvider } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
-import './App.css';
-import './styles/components.css';
-import { FaHome, FaExchangeAlt, FaChartBar, FaUser, FaTags, FaRobot } from 'react-icons/fa';
-import { isNative } from './services/capacitorBridge';
-import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import AIAssistant from './pages/AIAssistant';
+
+// Icons for mobile navigation
+import { FaHome, FaExchangeAlt, FaTags, FaRobot, FaUser } from 'react-icons/fa';
+
+// Capacitor imports
+import { Capacitor } from '@capacitor/core';
+import { SpeechRecognition } from '@capacitor-community/speech-recognition';
+
+// Styles
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import './styles/theme.css';
+import './styles/components.css';
 
 // Create mobile navigation component with access to location
 const MobileNavigation = () => {
   const location = useLocation();
-  
+  const [showAIModal, setShowAIModal] = useState(false);
+
+  const openAIModal = () => {
+    setShowAIModal(true);
+  };
+
+  const closeAIModal = () => {
+    setShowAIModal(false);
+  };
+
+
   return (
     <div className="d-md-none fixed-bottom mobile-navigation">
       <div className="d-flex justify-content-around">
@@ -40,21 +63,23 @@ const MobileNavigation = () => {
           <FaTags size={20} />
           <span>Categ</span>
         </Link>
-        <Link to="/ai-insights" className={location.pathname === '/ai-insights' ? 'active' : ''}>
+        <div onClick={openAIModal} style={{cursor: 'pointer'}}>
           <FaRobot size={20} />
           <span>AI</span>
-        </Link>
+        </div>
         <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
           <FaUser size={20} />
           <span>Profile</span>
         </Link>
       </div>
+
+      <AIAgentModal show={showAIModal} onHide={closeAIModal} />
     </div>
   );
 };
 
 // Initialize Capacitor plugins if running on native platforms
-if (isNative) {
+if (Capacitor.isNativePlatform()) {
   // Initialize speech recognition
   try {
     SpeechRecognition.available().then(result => {
@@ -142,7 +167,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </Container>
-            
+
             {/* Desktop Footer */}
             {!isAuthRoute() && (
               <footer className="d-none d-md-block text-center py-3 mt-4">
@@ -151,7 +176,7 @@ function App() {
                 </Container>
               </footer>
             )}
-            
+
             {/* Mobile Navigation */}
             {!isAuthRoute() && <MobileNavigation />}
           </div>

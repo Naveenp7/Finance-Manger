@@ -3,6 +3,7 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { Button, Modal, Card, Spinner, Alert } from 'react-bootstrap';
 import { FaMicrophone, FaMicrophoneSlash, FaCheck, FaTimes } from 'react-icons/fa';
 import { isNative, startSpeechRecognition, stopSpeechRecognition, addSpeechRecognitionListener, removeSpeechRecognitionListeners } from '../services/capacitorBridge';
+import aiAgentModal from './aiAgentModal';
 
 // Regular expressions for parsing amount
 const amountRegex = /(\d+(?:\.\d+)?)/g;
@@ -40,7 +41,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
   const [processingVoice, setProcessingVoice] = useState(false);
   const [nativeTranscript, setNativeTranscript] = useState('');
   const [permissionStatus, setPermissionStatus] = useState(null);
-  
+
   // Use web speech recognition if not running natively
   const {
     transcript: webTranscript,
@@ -48,34 +49,34 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
     resetTranscript: resetWebTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
-  
+
   // Get the appropriate transcript based on platform
   const transcript = isNative ? nativeTranscript : webTranscript;
-  
+
   // Stop native speech recognition when component unmounts
   useEffect(() => {
     return () => {
       if (isNative && isListening) {
-        stopNativeSpeechRecognition().catch(err => 
+        stopNativeSpeechRecognition().catch(err =>
           console.error('Error stopping recognition on unmount:', err)
         );
       }
     };
   }, [isListening]);
-  
+
   // Update listening status for web speech
   useEffect(() => {
     if (!isNative) {
       setIsListening(webListening);
     }
   }, [webListening]);
-  
+
   // Callback for speech recognition results
   const handleNativeSpeechResult = useCallback((text) => {
     console.log('Received speech recognition result:', text);
     setNativeTranscript(text);
   }, []);
-  
+
   // Start native speech recognition
   const startNativeSpeechRecognition = async () => {
     try {
@@ -83,10 +84,10 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       setIsListening(true);
       setNativeTranscript('');
       setError(null);
-      
+
       // Setup listener for results
       addSpeechRecognitionListener(handleNativeSpeechResult);
-      
+
       // Start listening
       await startSpeechRecognition('en-IN');
       console.log('Native speech recognition started successfully');
@@ -95,13 +96,13 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       console.error('Error in startNativeSpeechRecognition:', err);
       setError(`Speech recognition error: ${err.message}`);
       setIsListening(false);
-      
+
       if (err.message.includes('Permission denied')) {
         setPermissionStatus('denied');
       }
     }
   };
-  
+
   // Stop native speech recognition
   const stopNativeSpeechRecognition = async () => {
     try {
@@ -110,7 +111,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
         await stopSpeechRecognition();
         await removeSpeechRecognitionListeners();
         setIsListening(false);
-        
+
         // Only interpret if we have a transcript
         if (nativeTranscript && nativeTranscript.trim().length > 0) {
           interpretVoiceInput();
@@ -122,23 +123,23 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       setIsListening(false);
     }
   };
-  
+
   // Check if voice input is supported
   const isVoiceSupported = isNative || browserSupportsSpeechRecognition;
-  
+
   if (!isVoiceSupported) {
     return (
-      <Button 
-        variant="outline-secondary" 
-        disabled 
-        className="voice-input-btn" 
+      <Button
+        variant="outline-secondary"
+        disabled
+        className="voice-input-btn"
         title="Your device doesn't support speech recognition"
       >
         <FaMicrophoneSlash /> Voice Input Not Supported
       </Button>
     );
   }
-  
+
   const handleListen = () => {
     console.log('handleListen called, isListening:', isListening);
     if (isNative) {
@@ -157,53 +158,53 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       }
     }
   };
-  
+
   const interpretVoiceInput = () => {
     setProcessingVoice(true);
     setError(null);
-    
+
     try {
       console.log('Interpreting voice input:', transcript);
-      
+
       if (!transcript || transcript.trim().length === 0) {
         throw new Error("No speech detected. Please try again and speak clearly.");
       }
-      
-      // Default type 
+
+      // Default type
       let type = defaultType || 'expense';
-      
+
       // Check if the transcript contains income-related words
       if (/income|received|earned|revenue|sales/i.test(transcript)) {
         type = 'income';
       }
-      
+
       // Check if the transcript contains expense-related words
       if (/expense|spent|paid|payment|buy|bought|purchased/i.test(transcript)) {
         type = 'expense';
       }
-      
+
       // Extract amount
       const amountMatches = transcript.match(amountRegex);
       const amount = amountMatches ? parseFloat(amountMatches[0]) : null;
-      
+
       if (!amount) {
         throw new Error("Could not identify an amount in your voice input");
       }
-      
+
       // Extract category
       let category = 'miscellaneous';
       const categoryRegexes = type === 'income' ? incomeCategoryRegexes : expenseCategoryRegexes;
-      
+
       for (const [cat, regex] of Object.entries(categoryRegexes)) {
         if (regex.test(transcript)) {
           category = cat;
           break;
         }
       }
-      
+
       // Extract date
       let date = new Date();
-      
+
       if (todayRegex.test(transcript)) {
         // Already set to today
       } else if (yesterdayRegex.test(transcript)) {
@@ -213,23 +214,23 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
         if (dateMatch) {
           const day = parseInt(dateMatch[1]);
           const month = parseInt(dateMatch[2]) - 1; // JS months are 0-indexed
-          
+
           // If year is provided, use it, otherwise use current year
-          const year = dateMatch[3] 
+          const year = dateMatch[3]
             ? (dateMatch[3].length === 2 ? 2000 + parseInt(dateMatch[3]) : parseInt(dateMatch[3]))
             : date.getFullYear();
-            
+
           date = new Date(year, month, day);
         }
       }
-      
+
       // Format date as YYYY-MM-DD
       const formattedDate = date.toISOString().split('T')[0];
-      
+
       // Extract description
       const descriptionMatch = transcript.match(/for\s+(.*?)(?:\s+on|\s+at|\s+in|\s+to|\s+from|\s+by|\s+with|\s+and|\s+$)/i);
       const description = descriptionMatch ? descriptionMatch[1] : category;
-      
+
       // Create the interpreted transaction
       const transaction = {
         type,
@@ -238,7 +239,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
         date: formattedDate,
         description: description.charAt(0).toUpperCase() + description.slice(1)
       };
-      
+
       console.log('Interpreted transaction:', transaction);
       setInterpretedTransaction(transaction);
       setShowModal(true);
@@ -250,7 +251,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       setProcessingVoice(false);
     }
   };
-  
+
   const handleConfirm = () => {
     if (interpretedTransaction) {
       onTransactionCapture(interpretedTransaction);
@@ -263,7 +264,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       setShowModal(false);
     }
   };
-  
+
   const handleCancel = () => {
     if (!isNative) {
       resetWebTranscript();
@@ -273,7 +274,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
     setInterpretedTransaction(null);
     setShowModal(false);
   };
-  
+
   const handleVoice = () => {
     if (!('webkitSpeechRecognition' in window)) {
       alert('Voice recognition not supported');
@@ -290,14 +291,14 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
 
   return (
     <>
-      <Button 
-        variant={isListening ? "danger" : "outline-primary"} 
-        onClick={handleListen} 
+      <Button
+        variant={isListening ? "danger" : "outline-primary"}
+        onClick={handleListen}
         className="voice-input-btn"
       >
         {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />} {isListening ? "Stop Listening" : "Voice Input"}
       </Button>
-      
+
       {processingVoice && (
         <Modal show centered backdrop="static">
           <Modal.Body className="text-center p-4">
@@ -306,7 +307,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
           </Modal.Body>
         </Modal>
       )}
-      
+
       {permissionStatus === 'denied' && isNative && (
         <Modal show onHide={() => setPermissionStatus(null)} centered>
           <Modal.Header closeButton>
@@ -325,7 +326,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
           </Modal.Footer>
         </Modal>
       )}
-      
+
       <Modal show={showModal} onHide={handleCancel} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Transaction</Modal.Title>
@@ -360,9 +361,9 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
           <Button variant="secondary" onClick={handleCancel}>
             <FaTimes /> Cancel
           </Button>
-          <Button 
-            variant="primary" 
-            onClick={handleConfirm} 
+          <Button
+            variant="primary"
+            onClick={handleConfirm}
             disabled={!interpretedTransaction}
           >
             <FaCheck /> Confirm

@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar as BootstrapNavbar, Nav, Container, Button, Dropdown } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaChartLine, FaExchangeAlt, FaFileAlt, FaBell, FaUser, FaSignOutAlt, FaPlus, FaTags, FaRobot } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from './ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
+import AIAgentModal from './aiAgentModal';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser, userProfile, logout, isOnline } = useAuth();
   const { darkMode } = useTheme();
+  const [showAIAgent, setShowAIAgent] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -44,13 +46,22 @@ const Navbar = () => {
           </div>
           <span className="d-none d-md-inline">Panekkatt Money Tracker</span>
         </BootstrapNavbar.Brand>
-        
+
         <div className="d-flex align-items-center me-2 d-lg-none">
           {!isOnline && (
             <div className="text-warning me-3">
               <small>Offline</small>
             </div>
           )}
+          <Button 
+            variant="outline-primary" 
+            size="sm" 
+            className="me-2"
+            onClick={() => setShowAIAgent(true)}
+            disabled={!isOnline}
+          >
+            <FaRobot />
+          </Button>
           <ThemeToggle />
           <div className="notification-bell ms-2 me-3">
             <FaBell size={20} />
@@ -58,7 +69,7 @@ const Navbar = () => {
           </div>
           <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
         </div>
-        
+
         <BootstrapNavbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
             <Nav.Link
@@ -100,7 +111,7 @@ const Navbar = () => {
               <FaRobot className="me-1" /> AI Assistant
             </Nav.Link>
           </Nav>
-          
+
           <div className="d-none d-lg-flex align-items-center">
             {!isOnline && (
               <div className="text-warning me-3">
@@ -112,17 +123,27 @@ const Navbar = () => {
               <FaBell size={20} />
               <span className="notification-badge">3</span>
             </div>
-            
+
             <Button 
               variant="primary" 
               size="sm" 
-              className="rounded-pill px-3 py-2 me-3"
+              className="rounded-pill px-3 py-2 me-2"
               onClick={handleAddTransaction}
               disabled={!isOnline}
             >
               <FaPlus className="me-1" /> Add Transaction
             </Button>
-            
+
+            <Button 
+              variant="outline-primary" 
+              size="sm" 
+              className="rounded-pill px-3 py-2 me-3"
+              onClick={() => setShowAIAgent(true)}
+              disabled={!isOnline}
+            >
+              <FaRobot className="me-1" /> AI Assistant
+            </Button>
+
             <Dropdown align="end">
               <Dropdown.Toggle variant={darkMode ? "dark" : "light"} id="dropdown-user" className="d-flex align-items-center border-0">
                 <div className="d-flex align-items-center">
@@ -149,6 +170,12 @@ const Navbar = () => {
           </div>
         </BootstrapNavbar.Collapse>
       </Container>
+
+      {/* AI Agent Modal */}
+      <AIAgentModal 
+        show={showAIAgent} 
+        onHide={() => setShowAIAgent(false)} 
+      />
     </BootstrapNavbar>
   );
 };

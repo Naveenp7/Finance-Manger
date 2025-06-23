@@ -100,11 +100,13 @@ const AiInsights = () => {
             ) : error.predictions ? (
               <Alert variant="danger">{error.predictions}</Alert>
             ) : (
-              <ul>
-                {incomePredictions.map((prediction, index) => (
-                  <li key={index}>{formatCurrency(prediction.amount)} on {formatDate(prediction.date)}</li>
-                ))}
-              </ul>
+              <div>
+                <ul>
+                  {incomePredictions.map((prediction, index) => (
+                    <li key={index}>{formatCurrency(prediction.amount)} on {formatDate(prediction.date)}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </Card.Body>
         </Card>
@@ -118,11 +120,13 @@ const AiInsights = () => {
             ) : error.predictions ? (
               <Alert variant="danger">{error.predictions}</Alert>
             ) : (
-              <ul>
-                {expensePredictions.map((prediction, index) => (
-                  <li key={index}>{formatCurrency(prediction.amount)} on {formatDate(prediction.date)}</li>
-                ))}
-              </ul>
+              <div>
+                <ul>
+                  {expensePredictions.map((prediction, index) => (
+                    <li key={index}>{formatCurrency(prediction.amount)} on {formatDate(prediction.date)}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </Card.Body>
         </Card>
@@ -141,11 +145,13 @@ const AiInsights = () => {
             ) : error.anomalies ? (
               <Alert variant="danger">{error.anomalies}</Alert>
             ) : (
-              <ul>
-                {anomalies.map((anomaly, index) => (
-                  <li key={index}>{anomaly.description} on {formatDate(anomaly.date)}</li>
-                ))}
-              </ul>
+              <div>
+                <ul>
+                  {anomalies.map((anomaly, index) => (
+                    <li key={index}>{anomaly.description} on {formatDate(anomaly.date)}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </Card.Body>
         </Card>
@@ -164,11 +170,13 @@ const AiInsights = () => {
             ) : error.recommendations ? (
               <Alert variant="danger">{error.recommendations}</Alert>
             ) : (
-              <ul>
-                {recommendations.map((rec, index) => (
-                  <li key={index}>{rec.stock} - {rec.reason}</li>
-                ))}
-              </ul>
+              <div>
+                <ul>
+                  {recommendations.map((rec, index) => (
+                    <li key={index}>{rec.stock} - {rec.reason}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </Card.Body>
         </Card>
