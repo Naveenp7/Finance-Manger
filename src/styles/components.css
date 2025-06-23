@@ -1,0 +1,279 @@
+/* Modern UI Component styles */
+
+/* Analytics Card Styles */
+.analytics-card {
+  background-color: var(--dark-card-background);
+  color: var(--text-white);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-speed) ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.analytics-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.analytics-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: 0;
+  filter: blur(3px);
+}
+
+.analytics-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  background: rgba(255, 255, 255, 0.05);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  z-index: 0;
+  filter: blur(5px);
+}
+
+.analytics-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.analytics-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Weekly Spending UI */
+.weekly-spending {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 1rem;
+  height: 70px;
+  padding: 0.5rem;
+  perspective: 800px;
+}
+
+.day-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% / 7);
+  perspective: 800px;
+}
+
+.spending-bar {
+  width: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: var(--border-radius-full);
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  transform: translateZ(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.spending-bar.active {
+  background-color: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+.spending-bar:hover {
+  transform: translateZ(10px);
+  box-shadow: 0 0 15px rgba(110, 109, 240, 0.4);
+}
+
+.day-column .day-label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Badge effects */
+.badge {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  transform: translateZ(5px) scale(1.05);
+}
+
+/* Upcoming Payments UI */
+.upcoming-payments {
+  margin-top: 1.5rem;
+  perspective: 1000px;
+}
+
+.payment-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  transform: translateZ(0);
+}
+
+.payment-item:hover {
+  transform: translateZ(10px) scale(1.02);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius-sm);
+  padding: 0.75rem 0.5rem;
+}
+
+.payment-item:last-child {
+  border-bottom: none;
+}
+
+.payment-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.payment-icon:hover {
+  transform: rotateY(20deg);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.payment-details {
+  flex: 1;
+}
+
+.payment-title {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.payment-date {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.payment-amount {
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.payment-amount:hover {
+  transform: scale(1.1);
+}
+
+/* 3D Card inner effects for cards */
+.card-3d-inner {
+  position: relative;
+  width: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.card-3d:hover .card-3d-inner {
+  transform: translateZ(20px) rotateY(5deg);
+}
+
+/* Enhanced dark mode styles for transaction cards and how-to section */
+[data-theme="dark"] .smart-input-options h6 {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .small.text-muted,
+[data-theme="dark"] p.text-muted,
+[data-theme="dark"] .text-muted li {
+  color: var(--text-light) !important;
+}
+
+[data-theme="dark"] .voice-input-btn,
+[data-theme="dark"] .ocr-scanner-btn {
+  border-color: var(--primary-color);
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .voice-input-btn:hover,
+[data-theme="dark"] .ocr-scanner-btn:hover {
+  background-color: var(--primary-light);
+}
+
+/* Improved text contrast for transaction sections */
+[data-theme="dark"] .section-header {
+  color: var(--text-dark);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] h5.mb-0,
+[data-theme="dark"] h6 {
+  color: var(--text-dark);
+}
+
+/* Enhanced visibility for card content in dark mode */
+[data-theme="dark"] .card {
+  background-color: var(--card-background);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .card-header {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Better highlight for interactive elements */
+[data-theme="dark"] .btn-outline-primary {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .btn-outline-primary:hover {
+  background-color: var(--primary-light);
+  color: var(--text-dark);
+}
+
+/* Improve transaction filter visibility */
+[data-theme="dark"] .filter-transactions {
+  color: var(--text-dark);
+}
+
+[data-theme="dark"] .show-filters {
+  color: var(--primary-color);
+}
+
+/* Speech Recognition Button Animation */
+.pulse-animation {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}

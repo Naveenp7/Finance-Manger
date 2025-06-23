@@ -1,0 +1,886 @@
+@import './styles/theme.css';
+
+/* Apply the new theme styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-dark);
+  font-family: var(--font-family);
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* App container for theme transition */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition-speed) ease;
+}
+
+/* Card styling with enhanced 3D effects */
+.card {
+  border-radius: var(--border-radius-md);
+  border: none;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  background-color: var(--card-background);
+  color: var(--text-dark);
+  transition: all var(--transition-speed) ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: var(--card-hover-transform);
+}
+
+.card-header {
+  background-color: transparent;
+  border-bottom: 1px solid rgba(127, 127, 127, 0.1);
+  padding: 1rem 1.25rem;
+}
+
+/* Dashboard section headers */
+.section-header {
+  color: var(--text-dark);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Amount formatting - remove $ symbol as requested */
+.currency-display::before {
+  content: '₹';
+  font-weight: 500;
+}
+
+/* Dashboard summary cards with enhanced 3D effects */
+.summary-card {
+  border-radius: var(--border-radius-md);
+  border: none;
+  box-shadow: var(--card-shadow);
+  padding: 1.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--card-background);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.summary-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: -1;
+}
+
+.summary-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Analytics section with dark background */
+.analytics-section {
+  background-color: var(--dark-card-background);
+  border-radius: var(--border-radius-md);
+  color: var(--text-white);
+  padding: 1.25rem;
+}
+
+/* Chart styling */
+.chart-container {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--card-shadow);
+}
+
+/* Button styling with 3D effects */
+.btn {
+  border-radius: var(--border-radius-md);
+  padding: 0.6rem 1.2rem;
+  font-weight: 500;
+  transition: all var(--transition-speed) ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--button-shadow);
+  transform: var(--button-transform);
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.btn:hover {
+  box-shadow: var(--button-shadow-hover);
+  transform: var(--button-transform-hover);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--button-shadow);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  filter: brightness(110%);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  border-radius: var(--border-radius-full);
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Transaction list styling */
+.transaction-list-item {
+  border-bottom: 1px solid rgba(127, 127, 127, 0.1);
+  padding: 1rem 0;
+  transition: background-color 0.2s ease;
+  background-color: var(--card-background);
+}
+
+.transaction-list-item:hover {
+  background-color: var(--primary-light);
+}
+
+.transaction-list-item .transaction-amount {
+  font-weight: 600;
+}
+
+.transaction-list-item .transaction-date {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.transaction-list-item .transaction-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Mobile navigation bar */
+.mobile-navigation {
+  background-color: var(--mobile-nav-bg);
+  box-shadow: var(--mobile-nav-shadow);
+  padding: 12px 0 8px;
+  z-index: 1000;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.mobile-navigation a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 5px 0;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.mobile-navigation a span {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.mobile-navigation a.active {
+  color: var(--primary-color);
+}
+
+.mobile-navigation a.active::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+/* User menu */
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Theme toggle switch */
+.theme-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  margin: 0 15px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.theme-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .theme-switch-slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .theme-switch-slider:before {
+  transform: translateX(30px);
+}
+
+.theme-icon {
+  position: absolute;
+  top: 7px;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.theme-icon-light {
+  left: 8px;
+  color: #fff;
+}
+
+.theme-icon-dark {
+  right: 8px;
+  color: #333;
+}
+
+input:checked + .theme-switch-slider .theme-icon-light {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+input:checked + .theme-switch-slider .theme-icon-dark {
+  color: #fff;
+}
+
+/* Calendar day pills */
+.calendar-day {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Notification badge */
+.notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--danger-color);
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Override the main-content padding for the new design */
+.main-content {
+  padding: 1.5rem 1rem;
+  background-color: var(--background-color);
+  transition: background-color var(--transition-speed) ease;
+  flex: 1;
+}
+
+/* Form control styling */
+.form-control, .form-select {
+  border-radius: var(--border-radius-sm);
+  border: var(--input-border);
+  padding: 0.75rem 1rem;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  transition: all var(--transition-speed) ease;
+}
+
+.form-control:focus, .form-select:focus {
+  box-shadow: var(--input-focus-shadow);
+  border-color: var(--primary-color);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+}
+
+/* Make sure all currency amounts use ₹ instead of $ */
+.text-primary, .text-success, .text-danger {
+  font-weight: 600;
+}
+
+/* Tab styling */
+.nav-tabs {
+  border-bottom: none;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  border-radius: var(--border-radius-full);
+  padding: 0.5rem 1.25rem;
+  color: var(--text-light);
+  margin-right: 0.5rem;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+/* Footer */
+footer {
+  padding: 20px 0;
+  background-color: var(--card-background);
+  color: var(--text-dark);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* Glassmorphism for cards */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .glassmorphism {
+  background: rgba(30, 30, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 3D Card Effects */
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card-3d-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.card-3d:hover .card-3d-inner {
+  transform: rotateY(10deg);
+}
+
+/* Ensure chart colors match our theme */
+.chart-color-1 {
+  background-color: var(--chart-color-1) !important;
+}
+
+.chart-color-2 {
+  background-color: var(--chart-color-2) !important;
+}
+
+.chart-color-3 {
+  background-color: var(--chart-color-3) !important;
+}
+
+.chart-color-4 {
+  background-color: var(--chart-color-4) !important;
+}
+
+.chart-color-5 {
+  background-color: var(--chart-color-5) !important;
+}
+
+/* Keep everything below this line as is */
+.btn-success {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+  border-color: #146c43;
+}
+
+.text-income {
+  color: var(--income-color);
+}
+
+.text-expense {
+  color: var(--expense-color);
+}
+
+.badge-income {
+  background-color: rgba(52, 199, 89, 0.15);
+  color: var(--income-color);
+}
+
+.badge-expense {
+  background-color: rgba(255, 59, 48, 0.15);
+  color: var(--expense-color);
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .welcome-banner {
+    padding: 20px 15px;
+  }
+  
+  .welcome-banner h2 {
+    font-size: 24px;
+  }
+  
+  .feature-card {
+    padding: 15px;
+  }
+  
+  .feature-card h4 {
+    font-size: 16px;
+  }
+  
+  .stat-card-content p {
+    font-size: 20px;
+  }
+  
+  .credit-card {
+    padding: 15px;
+  }
+  
+  .credit-card-number {
+    font-size: 16px;
+  }
+  
+  .container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  .main-content {
+    padding-bottom: 70px;
+  }
+}
+
+/* Profile Page Styles */
+.profile-header {
+  background-color: var(--bs-primary);
+  color: white;
+  padding: 20px 0;
+  border-radius: 8px 8px 0 0;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: white;
+  color: var(--bs-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 16px;
+}
+
+/* Category Management Styles */
+.icon-option {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-option:hover {
+  background-color: #f0f0f0;
+}
+
+.icon-option.selected {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+/* Offline indicator */
+.offline-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bs-warning);
+  color: var(--bs-dark);
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+  z-index: 1000;
+}
+
+/* Adding some animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Toast position override */
+.toast-container {
+  z-index: 1070 !important;
+}
+
+/* App Specific Styles - Welcome banner */
+.welcome-banner {
+  border-radius: var(--border-radius-lg);
+  background-color: var(--welcome-banner-bg);
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-speed) ease;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transform: var(--card-3d-rotation);
+}
+
+.welcome-banner:hover {
+  transform: var(--card-3d-rotation-hover);
+  box-shadow: var(--shadow-lg);
+}
+
+.welcome-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: 0;
+}
+
+.welcome-banner h2 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 5px;
+  color: var(--text-dark);
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-banner p {
+  color: var(--text-secondary);
+  font-size: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Money icon/bag styles */
+.money-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: var(--icon-bg-primary);
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.money-icon {
+  font-size: 30px;
+  color: var(--primary-color);
+}
+
+/* Card styles with hover effects */
+.feature-card {
+  padding: 20px;
+  background-color: var(--feature-card-bg);
+  border-radius: var(--rounded-md);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px) rotateY(5deg);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-card h4 {
+  font-weight: 600;
+  margin: 15px 0 10px;
+  color: var(--text-dark);
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.feature-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.icon-primary {
+  background-color: var(--icon-bg-primary);
+  color: var(--primary-color);
+}
+
+.icon-income {
+  background-color: var(--icon-bg-income);
+  color: var(--income-color);
+}
+
+.icon-expense {
+  background-color: var(--icon-bg-expense);
+  color: var(--expense-color);
+}
+
+.icon-report {
+  background-color: var(--icon-bg-report);
+  color: var(--secondary-color);
+}
+
+/* Mobile notification */
+.mobile-notification {
+  background-color: var(--notification-bg);
+  border-radius: var(--rounded-md);
+  padding: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  transition: all var(--transition-speed) ease;
+  transform: translateZ(10px);
+}
+
+.mobile-notification:hover {
+  transform: translateZ(15px) scale(1.02);
+}
+
+.mobile-notification-icon {
+  margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--icon-bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.mobile-notification-content {
+  flex: 1;
+}
+
+.mobile-notification-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--text-dark);
+}
+
+.mobile-notification-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Credit card style (based on image) */
+.credit-card {
+  background-color: var(--credit-card-bg);
+  border-radius: var(--rounded-md);
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  color: var(--text-credit-card);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transform: rotateY(0);
+  transition: all 0.5s ease;
+}
+
+.credit-card:hover {
+  transform: rotateY(10deg);
+  box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.credit-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
+  pointer-events: none;
+}
+
+.credit-card-number {
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin: 15px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.credit-card-holder {
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.credit-card-exp {
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.credit-card-brand {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-weight: 700;
+  font-size: l8px;
+  z-index: 1;
+}
+
+.credit-card-chip {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  font-size: 24px;
+  z-index: 1;
+  transform: translateZ(20px);
+}
+
+/* Card stats styles */
+.stat-card {
+  background-color: var(--card-background);
+  border-radius: var(--rounded-md);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-speed) ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-card-content h4 {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.stat-card-content p {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-dark);
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background-color: var(--icon-bg-primary);
+  color: var(--primary-color);
+} 

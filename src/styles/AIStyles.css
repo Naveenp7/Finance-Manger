@@ -1,0 +1,226 @@
+/* AI Insights Page Styles */
+
+/* Common card styling */
+.ai-insights-page .card {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.ai-insights-page .card:hover {
+  transform: translateY(-3px);
+}
+
+/* Tab styling */
+.ai-insights-page .nav-tabs {
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.ai-insights-page .nav-tabs .nav-link {
+  color: #777;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+}
+
+.ai-insights-page .nav-tabs .nav-link.active {
+  color: var(--primary-color);
+  border-bottom: 3px solid var(--primary-color);
+  background-color: transparent;
+}
+
+/* Prediction tab */
+.prediction-list {
+  margin-top: 1rem;
+}
+
+.prediction-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.prediction-item:last-child {
+  border-bottom: none;
+}
+
+.prediction-item .date {
+  font-weight: 500;
+  color: #555;
+}
+
+.prediction-item .amount {
+  font-weight: 600;
+}
+
+/* Anomaly tab */
+.anomaly-card {
+  border-left: 4px solid var(--danger);
+  background-color: rgba(255, 86, 86, 0.05);
+}
+
+.anomaly-card.income {
+  border-left: 4px solid var(--success);
+  background-color: rgba(46, 202, 106, 0.05);
+}
+
+/* Recommendation tab */
+.recommendation-card {
+  border-left: 4px solid var(--primary);
+  background-color: rgba(94, 92, 230, 0.05);
+}
+
+/* Weekly Summary tab */
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.summary-metric {
+  text-align: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  height: 100%;
+}
+
+.summary-metric h5 {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.summary-metric .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.summary-metric .trend {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.trend.positive {
+  color: var(--success);
+}
+
+.trend.negative {
+  color: var(--danger);
+}
+
+.insights-list {
+  margin: 1.5rem 0;
+}
+
+.insight-item {
+  position: relative;
+  padding: 0.75rem 1rem 0.75rem 1.5rem;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.insight-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.insight-item.positive {
+  background-color: rgba(46, 202, 106, 0.1);
+}
+
+.insight-item.positive::before {
+  background-color: var(--success);
+}
+
+.insight-item.negative {
+  background-color: rgba(255, 86, 86, 0.1);
+}
+
+.insight-item.negative::before {
+  background-color: var(--danger);
+}
+
+.insight-item.informative {
+  background-color: rgba(94, 92, 230, 0.1);
+}
+
+.insight-item.informative::before {
+  background-color: var(--primary);
+}
+
+.insight-item.warning {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.insight-item.warning::before {
+  background-color: var(--warning);
+}
+
+.insight-item.neutral {
+  background-color: rgba(108, 117, 125, 0.1);
+}
+
+.insight-item.neutral::before {
+  background-color: var(--secondary);
+}
+
+.top-categories {
+  margin-top: 1rem;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.category-item:last-child {
+  border-bottom: none;
+}
+
+.category-item .name {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.category-item .amount {
+  font-weight: 600;
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .ai-insights-page .card-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .ai-insights-page .card-body {
+    padding: 1rem;
+  }
+  
+  .summary-metric {
+    margin-bottom: 1rem;
+  }
+  
+  .prediction-item, .category-item {
+    padding: 0.5rem 0;
+  }
+  
+  .insight-item {
+    padding: 0.5rem 1rem 0.5rem 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+} 
