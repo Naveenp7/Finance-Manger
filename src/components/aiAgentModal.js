@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Form, Button, Spinner, Tab, Tabs, Card, ListGroup, Badge } from 'react-bootstrap';
 import { FaRobot, FaMicrophone, FaMicrophoneSlash, FaChartLine, FaExclamationTriangle, FaCalendarAlt, FaPaperPlane, FaTimes } from 'react-icons/fa';
@@ -146,103 +145,110 @@ const AIAgentModal = ({ show, onHide }) => {
     setInput(transcript);
   };
 
-  const quickQuestions = [
-    "What are my top 3 expense categories this month?",
-    "How much did I spend on fuel last month?",
-    "Show me my income vs expenses trend",
-    "What's my average daily spending?",
-    "Are there any unusual transactions recently?"
-  ];
+  const QuickActionButton = ({ text, onClick }) => (
+    <Button 
+      variant="outline-primary" 
+      className="quick-action-btn" 
+      onClick={onClick}
+    >
+      {text}
+    </Button>
+  );
+
+  const renderQuickActions = () => (
+    <div className="quick-actions">
+      <QuickActionButton 
+        text="💰 Monthly Spending Analysis" 
+        onClick={() => setInput("Analyze my monthly spending patterns")}
+      />
+      <QuickActionButton 
+        text="📊 Budget Status" 
+        onClick={() => setInput("How am I doing with my budget?")}
+      />
+      <QuickActionButton 
+        text="🎯 Saving Tips" 
+        onClick={() => setInput("Give me personalized saving tips")}
+      />
+      <QuickActionButton 
+        text="📈 Expense Forecast" 
+        onClick={() => setInput("Forecast my expenses for next month")}
+      />
+    </div>
+  );
+
+  const renderChatBubble = (message, index) => (
+    <div key={index} className={`chat-bubble ${message.from}`}>
+      {message.text}
+    </div>
+  );
 
   return (
-    <Modal show={show} onHide={onHide} size="lg" className="ai-agent-modal">
-      <Modal.Header closeButton className="border-0">
-        <Modal.Title className="d-flex align-items-center">
-          <FaRobot className="me-2 text-primary" />
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="lg"
+      aria-labelledby="ai-assistant-modal"
+      centered
+      className="ai-assistant-modal"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="ai-assistant-modal">
+          <FaRobot className="me-2" />
           AI Financial Assistant
         </Modal.Title>
       </Modal.Header>
       
       <Modal.Body className="p-0">
-        <Tabs 
-          activeKey={activeTab} 
-          onSelect={setActiveTab}
-          className="nav-tabs-custom"
+        <Tabs
+          activeKey={activeTab}
+          onSelect={(k) => setActiveTab(k)}
+          className="mb-3 px-3 pt-2"
         >
-          <Tab eventKey="chat" title={<><FaRobot className="me-1" /> Chat</>}>
-            <div className="chat-container">
-              <div className="chat-messages">
-                {messages.map((message, index) => (
-                  <div 
-                    key={index} 
-                    className={`message ${message.from === 'user' ? 'user-message' : 'ai-message'}`}
-                  >
-                    <div className="message-content">
-                      {message.text}
-                    </div>
-                    <div className="message-time">
-                      {message.timestamp.toLocaleTimeString()}
-                    </div>
-                  </div>
-                ))}
+          <Tab eventKey="chat" title="Chat">
+            <div className="ai-assistant-container">
+              {!initialized && !loading && renderQuickActions()}
+              
+              <div className="chat-window">
+                {messages.map((msg, index) => renderChatBubble(msg, index))}
                 {loading && (
-                  <div className="message ai-message">
-                    <div className="message-content">
-                      <Spinner animation="grow" size="sm" className="me-2" />
-                      Thinking...
-                    </div>
+                  <div className="loading-indicator">
+                    <Spinner animation="border" variant="primary" size="sm" />
                   </div>
                 )}
                 <div ref={chatEndRef} />
               </div>
               
-              <div className="quick-questions mb-3">
-                <small className="text-muted">Quick questions:</small>
-                <div className="d-flex flex-wrap gap-2 mt-1">
-                  {quickQuestions.map((question, index) => (
-                    <Badge 
-                      key={index}
-                      bg="light" 
-                      text="dark" 
-                      className="quick-question-badge"
-                      onClick={() => setInput(question)}
-                    >
-                      {question}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="chat-input-container">
+              <div className="chat-input-row">
                 <Form.Control
-                  as="textarea"
-                  rows={2}
+                  type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything about your finances..."
-                  disabled={loading || !initialized}
+                  disabled={loading}
                 />
-                <div className="input-actions">
-                  <VoiceInput 
-                    onResult={handleVoiceResult}
-                    isListening={isListening}
-                    setIsListening={setIsListening}
-                  />
-                  <Button 
-                    variant="primary" 
-                    size="sm"
-                    onClick={handleSendMessage}
-                    disabled={!input.trim() || loading || !initialized}
-                  >
-                    <FaPaperPlane />
-                  </Button>
-                </div>
+                
+                <VoiceInput
+                  className="voice-input-btn"
+                  isListening={isListening}
+                  onStart={() => setIsListening(true)}
+                  onEnd={() => setIsListening(false)}
+                  onResult={(text) => setInput(text)}
+                  disabled={loading}
+                />
+                
+                <Button
+                  variant="primary"
+                  onClick={handleSendMessage}
+                  disabled={!input.trim() || loading}
+                >
+                  <FaPaperPlane />
+                </Button>
               </div>
             </div>
           </Tab>
-          
-          <Tab eventKey="insights" title={<><FaChartLine className="me-1" /> Insights</>}>
+
+          <Tab eventKey="insights" title="Insights">
             <div className="tab-content-container">
               <Card>
                 <Card.Header>

@@ -231,17 +231,17 @@ const Transactions = () => {
             </Card.Header>
             <Card.Body>
               <h6><FaMicrophone className="me-2" />Voice Input</h6>
-              <p className="small text-muted mb-3">
+              <div className="small text-muted mb-3">
                 Say amounts and categories naturally. Examples:
                 <ul className="mb-0 ps-3">
                   <li>"Spent 500 rupees on raw materials today"</li>
                   <li>"Income of 2000 from sales yesterday"</li>
                   <li>"Paid 350 for electricity on 15/05"</li>
                 </ul>
-              </p>
+              </div>
               
               <h6><FaCamera className="me-2" />Receipt Scanner</h6>
-              <p className="small text-muted mb-0">
+              <div className="small text-muted mb-0">
                 Use your camera to scan receipts and bills. The system will try to detect:
                 <ul className="mb-0 ps-3">
                   <li>Total amount</li>
@@ -249,7 +249,7 @@ const Transactions = () => {
                   <li>Vendor information</li>
                   <li>GST information (if available)</li>
                 </ul>
-              </p>
+              </div>
             </Card.Body>
           </Card>
         </Col>
@@ -290,4 +290,4 @@ const Transactions = () => {
   );
 };
 
-export default Transactions; 
+export default Transactions;

@@ -105,10 +105,25 @@ const Navbar = () => {
               to="/ai-insights"
               className={`mx-1 px-3 ${location.pathname === '/ai-insights' ? 'active fw-bold' : ''}`}
             >
-              <FaRobot className="me-2 d-none d-md-inline" /> AI Insights
+              <FaRobot className="me-2 d-none d-md-inline" size={20} /> AI Insights
             </Nav.Link>
-            <Nav.Link as={Link} to="/ai-assistant" className={location.pathname === '/ai-assistant' ? 'active' : ''}>
-              <FaRobot className="me-1" /> AI Assistant
+            <Nav.Link
+              as={Link}
+              to="/ai-assistant"
+              className={`mx-1 px-3 ${location.pathname === '/ai-assistant' ? 'active fw-bold' : ''}`}
+            >
+              <FaRobot 
+                className="me-2 d-none d-md-inline" 
+                size={20} 
+                style={{ color: location.pathname === '/ai-assistant' ? '#6246ea' : '#6c757d' }} 
+              />
+              <FaRobot 
+                className="me-1 d-inline d-md-none" 
+                size={20} 
+                style={{ color: location.pathname === '/ai-assistant' ? '#6246ea' : '#6c757d' }} 
+              />
+              <span className="d-none d-md-inline">AI Assistant</span>
+              <span className="d-inline d-md-none">AI</span>
             </Nav.Link>
           </Nav>
 
