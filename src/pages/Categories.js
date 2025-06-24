@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Form, ListGroup, Modal, Alert } from 'react-bootstrap';
 import { fetchCategories, addCategory, updateCategory, deleteCategory } from '../services/api';
 import { FaPlus, FaPencilAlt, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
@@ -28,11 +28,7 @@ const Categories = () => {
   ];
 
   // Fetch categories
-  useEffect(() => {
-    loadCategories();
-  }, [loadCategories]); // Added loadCategories dependency
-
-  const loadCategories = async () => {
+  const loadCategories = useCallback(async () => {
     setLoading(true);
     setError('');
     
@@ -45,7 +41,11 @@ const Categories = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeType]); // Added activeType as a dependency
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]); // Keep loadCategories as a dependency
 
   // Handle form input changes
   const handleChange = (e) => {

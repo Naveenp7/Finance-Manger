@@ -2,6 +2,8 @@ import * as tf from '@tensorflow/tfjs';
 import { getTransactionsByDateRange } from '../../firebase/transactionService';
 import { checkTensorFlowAvailability, safeTensor3d } from '../../utils/tensorflowUtils';
 
+let tensorFlowDisabled = false;
+
 // Check if we're in production
 const isProduction = !window.location.hostname.includes('localhost');
 

@@ -28,7 +28,7 @@ const incomeCategoryRegexes = {
 };
 
 // Date regex - supports various formats
-const dateRegex = /([0-9]{1,2})[\/\-]([0-9]{1,2})(?:[\/\-]([0-9]{2,4}))?/;
+const dateRegex = /([0-9]{1,2})[/-]([0-9]{1,2})(?:[/-]([0-9]{2,4}))?/;
 const todayRegex = /today|to-day/i;
 const yesterdayRegex = /yesterday|yester-day/i;
 
@@ -102,8 +102,8 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
     }
   };
 
-  // Stop native speech recognition
-  const stopNativeSpeechRecognition = async () => {
+  // Move stopNativeSpeechRecognition above its first use
+  const stopNativeSpeechRecognition = useCallback(async () => {
     try {
       console.log('Stopping native speech recognition');
       if (isListening) {
@@ -121,44 +121,10 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       setError(`Error stopping speech: ${err.message}`);
       setIsListening(false);
     }
-  };
+  }, [isListening, nativeTranscript, interpretVoiceInput]);
 
-  // Check if voice input is supported
-  const isVoiceSupported = isNative || browserSupportsSpeechRecognition;
-
-  if (!isVoiceSupported) {
-    return (
-      <Button
-        variant="outline-secondary"
-        disabled
-        className="voice-input-btn"
-        title="Your device doesn't support speech recognition"
-      >
-        <FaMicrophoneSlash /> Voice Input Not Supported
-      </Button>
-    );
-  }
-
-  const handleListen = () => {
-    console.log('handleListen called, isListening:', isListening);
-    if (isNative) {
-      if (!isListening) {
-        startNativeSpeechRecognition();
-      } else {
-        stopNativeSpeechRecognition();
-      }
-    } else {
-      if (!isListening) {
-        resetWebTranscript();
-        SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
-      } else {
-        SpeechRecognition.stopListening();
-        interpretVoiceInput();
-      }
-    }
-  };
-
-  const interpretVoiceInput = () => {
+  // interpretVoiceInput must be defined before stopNativeSpeechRecognition uses it in its dependency array
+  const interpretVoiceInput = useCallback(() => {
     setProcessingVoice(true);
     setError(null);
 
@@ -248,6 +214,41 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
       setInterpretedTransaction(null);
     } finally {
       setProcessingVoice(false);
+    }
+  }, [defaultType, transcript]);
+
+  // Check if voice input is supported
+  const isVoiceSupported = isNative || browserSupportsSpeechRecognition;
+
+  if (!isVoiceSupported) {
+    return (
+      <Button
+        variant="outline-secondary"
+        disabled
+        className="voice-input-btn"
+        title="Your device doesn't support speech recognition"
+      >
+        <FaMicrophoneSlash /> Voice Input Not Supported
+      </Button>
+    );
+  }
+
+  const handleListen = () => {
+    console.log('handleListen called, isListening:', isListening);
+    if (isNative) {
+      if (!isListening) {
+        startNativeSpeechRecognition();
+      } else {
+        stopNativeSpeechRecognition();
+      }
+    } else {
+      if (!isListening) {
+        resetWebTranscript();
+        SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
+      } else {
+        SpeechRecognition.stopListening();
+        interpretVoiceInput();
+      }
     }
   };
 

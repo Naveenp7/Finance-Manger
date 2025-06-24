@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import { auth } from '../firebase/config';
 import { onAuthStateChanged } from 'firebase/auth';
 import { signIn, signUp, logout } from '../firebase/authService';
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Fetch user profile when user is authenticated
-  const fetchUserProfile = async (user) => {
+  const fetchUserProfile = useCallback(async (user) => {
     if (user) {
       try {
         // Try to get profile from Firestore
@@ -107,7 +107,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUserProfile(null);
     }
-  };
+  }, [isOnline]); // Added isOnline as a dependency
 
   // Listen to auth state changes
   useEffect(() => {

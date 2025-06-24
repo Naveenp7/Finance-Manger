@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Modal, Form, Button, Spinner, Tab, Tabs, Card, ListGroup } from 'react-bootstrap';
 import { FaRobot, FaExclamationTriangle, FaCalendarAlt, FaPaperPlane } from 'react-icons/fa';
 import { aiAgent } from '../services/ai/aiAgentService';
@@ -19,21 +19,7 @@ const AIAgentModal = ({ show, onHide }) => {
   const chatEndRef = useRef(null);
   const [isListening, setIsListening] = useState(false);
 
-  useEffect(() => {
-    if (show && currentUser && !initialized) {
-      initializeAgent();
-    }
-  }, [show, currentUser, initialized]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const initializeAgent = async () => {
+  const initializeAgent = useCallback(async () => {
     setLoading(true);
     try {
       const success = await aiAgent.initializeAgent(currentUser.uid);
@@ -54,6 +40,20 @@ const AIAgentModal = ({ show, onHide }) => {
       }]);
     }
     setLoading(false);
+  }, [currentUser.uid]);
+
+  useEffect(() => {
+    if (show && currentUser && !initialized) {
+      initializeAgent();
+    }
+  }, [show, currentUser, initialized, initializeAgent]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSendMessage = async () => {

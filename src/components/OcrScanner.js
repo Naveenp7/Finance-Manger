@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Modal, Spinner, Form, Card, Alert } from 'react-bootstrap';
-import { FaCamera, FaTimes, FaCheck, FaUpload, FaSearch } from 'react-icons/fa';
+import { Button, Modal, Spinner, Card, Alert } from 'react-bootstrap';
+import { FaCamera, FaCheck, FaUpload } from 'react-icons/fa';
 import { createWorker } from 'tesseract.js';
 import { isNative, takePicture, pickImage } from '../services/capacitorBridge';
 
 // Regular expressions for parsing
 const amountRegex = /(?:total|amount|amt|sum|rs|inr|₹)[\s:]*(\d+(?:\.\d+)?)/i;
-const dateRegex = /(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/;
+const dateRegex = /(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})/;
 const gstRegex = /GST\s*(?:No|Number|#)?[\s:]*([0-9A-Z]+)/i;
-const regex = /\b\d{1,3}(?:[,.]\d{3})*(?:[,.]\d{2})\b/g; // Removed unnecessary escapes
 
 const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
   const [showModal, setShowModal] = useState(false);
@@ -278,7 +277,7 @@ const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
       >
         <FaCamera /> Scan Receipt
       </Button>
-      
+
       <Modal
         show={showModal}
         onHide={handleCloseScanner}
@@ -294,16 +293,16 @@ const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
             <div className="text-center">
               {!isNative && (
                 <div className="camera-container mb-3">
-                  <video 
-                    ref={videoRef} 
-                    autoPlay 
-                    playsInline 
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
                     style={{ width: '100%', maxHeight: '50vh', objectFit: 'contain' }}
                   />
                   <canvas ref={canvasRef} style={{ display: 'none' }} />
                 </div>
               )}
-              
+
               <div className="d-flex justify-content-center gap-3">
                 <Button variant="primary" onClick={captureImage}>
                   <FaCamera /> {isNative ? 'Take Photo' : 'Capture'}
@@ -312,92 +311,49 @@ const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
                   <FaUpload /> Upload Image
                 </Button>
                 {!isNative && (
-                  <input 
-                    type="file" 
-                    ref={fileInputRef} 
-                    accept="image/*" 
-                    onChange={handleFileSelect} 
-                    style={{ display: 'none' }} 
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleFileSelect}
                   />
                 )}
               </div>
             </div>
           ) : (
-            <div className="text-center">
-              <div className="mb-3">
-                <img 
-                  src={image} 
-                  alt="Receipt" 
-                  style={{ maxWidth: '100%', maxHeight: '50vh', objectFit: 'contain' }} 
-                />
-              </div>
-              
-              {!scanning && !scanResults && !error && (
-                <Button 
-                  variant="primary" 
-                  onClick={processImage} 
-                  className="mb-3"
-                >
-                  <FaSearch /> Scan for Text
-                </Button>
-              )}
-              
-              {scanning && (
-                <div className="text-center p-4">
+            <div>
+              {scanning ? (
+                <div className="text-center">
                   <Spinner animation="border" variant="primary" />
-                  <p className="mt-2">Processing image...</p>
+                  <p>Scanning image for text...</p>
                 </div>
-              )}
-              
-              {error && (
-                <Alert variant="danger" className="mb-3">
+              ) : error ? (
+                <Alert variant="danger" onClose={() => setError(null)} dismissible>
                   {error}
                 </Alert>
-              )}
-              
-              {scanResults && (
-                <div className="mt-3">
-                  {interpretedTransaction ? (
-                    <Card className="mb-3">
-                      <Card.Header>Detected Transaction</Card.Header>
-                      <Card.Body>
-                        <p><strong>Type:</strong> {interpretedTransaction.type === 'income' ? 'Income' : 'Expense'}</p>
-                        <p><strong>Amount:</strong> ₹{interpretedTransaction.amount}</p>
-                        <p><strong>Category:</strong> {interpretedTransaction.category}</p>
-                        <p><strong>Date:</strong> {interpretedTransaction.date}</p>
-                        <p><strong>Description:</strong> {interpretedTransaction.description}</p>
-                      </Card.Body>
-                      <Card.Footer className="d-flex justify-content-between">
-                        <Button variant="secondary" onClick={() => setImage(null)}>
-                          <FaTimes /> Cancel
-                        </Button>
-                        <Button variant="primary" onClick={handleConfirm}>
-                          <FaCheck /> Save Transaction
-                        </Button>
-                      </Card.Footer>
-                    </Card>
-                  ) : (
-                    <div className="mb-3">
-                      <Alert variant="warning">
-                        No transaction details could be extracted. Try taking a clearer photo or manually enter the details.
-                      </Alert>
-                      <Button variant="secondary" onClick={() => setImage(null)}>
-                        <FaTimes /> Try Again
+              ) : (
+                <div>
+                  <h5>Scan Results</h5>
+                  <Card className="mb-3">
+                    <Card.Body>
+                      <Card.Title>Interpreted Transaction</Card.Title>
+                      <Card.Text>
+                        <strong>Type:</strong> {interpretedTransaction?.type}<br />
+                        <strong>Amount:</strong> {interpretedTransaction?.amount}<br />
+                        <strong>Category:</strong> {interpretedTransaction?.category}<br />
+                        <strong>Date:</strong> {interpretedTransaction?.date}<br />
+                        <strong>Description:</strong> {interpretedTransaction?.description}
+                      </Card.Text>
+                      
+                      <Button variant="success" onClick={handleConfirm}>
+                        <FaCheck /> Confirm Transaction
                       </Button>
-                    </div>
-                  )}
+                    </Card.Body>
+                  </Card>
                   
-                  <div className="mt-4">
-                    <Form.Group>
-                      <Form.Label>Raw Text (Confidence: {confidence.toFixed(2)}%)</Form.Label>
-                      <Form.Control 
-                        as="textarea" 
-                        rows={5} 
-                        value={rawText} 
-                        readOnly 
-                      />
-                    </Form.Group>
-                  </div>
+                  <h6>Raw OCR Text (for debugging)</h6>
+                  <pre>{rawText}</pre>
                 </div>
               )}
             </div>

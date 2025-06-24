@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
-import TransactionFilter from '../components/TransactionFilter';
 import { exportToExcel } from '../services/api';
 import { saveAs } from 'file-saver';
 import { FaFileExcel, FaFilePdf, FaChartLine } from 'react-icons/fa';
 import { isNative, saveExcelFile } from '../services/capacitorBridge';
+import TransactionFilter from '../components/TransactionFilter';
 
 const Reports = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +40,11 @@ const Reports = () => {
   const handlePDFExport = () => {
     setError('PDF export will be available in the next update.');
   };
+
+  const handleFilterChange = useCallback((newFilters) => {
+    // setFilters(newFilters); // Remove setting unused state
+    // You might want to apply the filters to your data here
+  }, []); // Update dependencies for useCallback if needed
 
   // Clear messages after 3 seconds
   React.useEffect(() => {

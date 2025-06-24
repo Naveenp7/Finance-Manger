@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Row, Col, Button, Collapse } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import { FaFilter, FaCalendarAlt, FaTags, FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
-const TransactionFilter = ({ onFilterChange }) => {
+const TransactionFilter = ({ onFilterChange, minimal = false, showResetButton = true }) => {
   const [filters, setFilters] = useState({
     type: 'all',
     category: '',
@@ -12,11 +12,6 @@ const TransactionFilter = ({ onFilterChange }) => {
   });
   
   const [showFilters, setShowFilters] = useState(false);
-
-  // Apply initial filters when component mounts
-  useEffect(() => {
-    handleApplyFilters();
-  }, [handleApplyFilters]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +28,7 @@ const TransactionFilter = ({ onFilterChange }) => {
     }));
   };
 
-  const handleApplyFilters = () => {
+  const handleApplyFilters = useCallback(() => {
     const formattedFilters = {
       ...filters,
       start_date: filters.start_date.toISOString().split('T')[0],
@@ -56,7 +51,11 @@ const TransactionFilter = ({ onFilterChange }) => {
     if (window.innerWidth < 768) {
       setShowFilters(false);
     }
-  };
+  }, [filters, onFilterChange]);
+
+  useEffect(() => {
+    handleApplyFilters();
+  }, [handleApplyFilters]);
 
   const handleResetFilters = () => {
     setFilters({

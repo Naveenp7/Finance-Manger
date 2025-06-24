@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Alert, Tab, Tabs } from 'react-bootstrap';
 import { FaRobot, FaDownload } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
-import { formatCurrency } from '../utils/formatters';
+import { formatCurrency, formatDate } from '../utils/formatters';
 import { predictTransactions, detectAnomalies, recommendStockPurchaseDays } from '../services/ai/predictionService';
 import { generateWeeklySummary } from '../services/ai/reportService';
 import { createBackup } from '../services/backupService';
