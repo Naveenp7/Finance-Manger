@@ -407,4 +407,4 @@ const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
   );
 };
 
-export default OcrScanner; 
+export default OcrScanner;

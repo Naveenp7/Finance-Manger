@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import { FaArrowUp, FaArrowDown, FaRegCalendarAlt, FaCreditCard } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { formatCurrency } from '../utils/formatters';
 
 const DashboardMetrics = ({ transactions }) => {
@@ -46,12 +46,6 @@ const DashboardMetrics = ({ transactions }) => {
     
     return { day, height, isActive };
   });
-  
-  // Upcoming payments data (example)
-  const upcomingPayments = [
-    { id: 1, title: 'Electricity Bill', date: 'Oct 15', amount: 1200, icon: <FaRegCalendarAlt /> },
-    { id: 2, title: 'Raw Materials', date: 'Oct 18', amount: 5000, icon: <FaCreditCard /> },
-  ];
   
   return (
     <>
