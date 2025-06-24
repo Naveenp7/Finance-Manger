@@ -1,8 +1,7 @@
 import { Capacitor } from '@capacitor/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Filesystem } from '@capacitor/filesystem';
 
 // Check if running in native context
 export const isNative = Capacitor.isNativePlatform();
@@ -225,4 +224,4 @@ const blobToBase64 = (blob) => {
     };
     reader.readAsDataURL(blob);
   });
-}; 
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
-import { FaWifi, FaExclamationTriangle } from 'react-icons/fa';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 const NetworkStatus = () => {
   const { isOnline } = useAuth();
@@ -22,4 +22,4 @@ const NetworkStatus = () => {
   );
 };
 
-export default NetworkStatus; 
+export default NetworkStatus;

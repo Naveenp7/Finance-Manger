@@ -17,7 +17,6 @@ import {
   initializeDefaultCategories as initializeDefaultCategoriesFirebase
 } from '../firebase/categoryService';
 import { utils, write } from 'xlsx';
-import { saveAs } from 'file-saver';
 
 // Transaction Services
 
@@ -177,4 +176,4 @@ export const exportToExcel = async () => {
     console.error('Error exporting to Excel:', error);
     throw error;
   }
-}; 
+};

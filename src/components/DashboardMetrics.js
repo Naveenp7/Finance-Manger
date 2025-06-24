@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import { FaArrowUp, FaArrowDown, FaBalanceScale, FaChartPie, FaMoneyBillWave, FaWallet, FaRegCalendarAlt, FaCreditCard } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaRegCalendarAlt, FaCreditCard } from 'react-icons/fa';
 import { formatCurrency } from '../utils/formatters';
 
 const DashboardMetrics = ({ transactions }) => {
@@ -101,101 +101,72 @@ const DashboardMetrics = ({ transactions }) => {
             </div>
           </Card>
         </Col>
-        <Col md={4}>
+        {/* Profit Card - Currently not displayed */}
+        {/* <Col md={4}>
           <Card className="summary-card card-3d">
             <div className="card-3d-inner">
               <div className="d-flex align-items-center mb-3">
-                <div className="me-3 icon-report feature-card-icon">
-                  <FaMoneyBillWave />
+                <div className="me-3 icon-profit feature-card-icon">
+                  <FaBalanceScale />
                 </div>
                 <div>
-                  <h6 className="text-muted mb-0">Balance</h6>
-                  <h4 className={profit >= 0 ? "text-income mb-0" : "text-expense mb-0"}>
-                    {formatCurrency(profit)}
-                  </h4>
+                  <h6 className="text-muted mb-0">Profit</h6>
+                  <h4 className="text-profit mb-0">{formatCurrency(profit)}</h4>
                 </div>
               </div>
               <div className="d-flex justify-content-between">
-                <span className="text-muted small">Net earnings</span>
-                <span className={profit >= 0 ? "text-success small" : "text-danger small"}>
-                  {profit >= 0 ? <FaArrowUp size={10} className="me-1" /> : <FaArrowDown size={10} className="me-1" />}
+                <span className="text-muted small">Net gain/loss</span>
+                <span className={`small ${profit >= 0 ? 'text-success' : 'text-danger'}`}>
                   {profitPercentage}%
                 </span>
               </div>
             </div>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
-      
-      {/* Dark Analytics Card with Weekly Spending */}
-      <Row className="mb-4">
-        <Col md={7} className="mb-3 mb-md-0">
-          <div className="analytics-card">
-            <h3>Weekly Spending</h3>
-            <div className="analytics-card-content">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h4 className="text-white mb-2">{formatCurrency(weeklySpending)}</h4>
-                  <p className="text-light mb-0">Avg. {formatCurrency(avgDailySpending)}/day</p>
+
+      {/* Weekly Spending Visualization */}
+      <Card className="mb-4 shadow-sm">
+        <Card.Body>
+          <h5 className="mb-3">Weekly Spending</h5>
+          <div className="weekly-spending-chart d-flex justify-content-around align-items-end" style={{ height: '100px' }}>
+            {weeklyData.map(({ day, height, isActive }) => (
+              <div key={day} className={`bar-container d-flex flex-column align-items-center ${isActive ? 'active' : ''}`}>
+                <div className="bar" style={{ height: `${height}px` }}></div>
+                <small className="day-label mt-1">{day}</small>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-3">
+            <h6 className="mb-0">Average Daily Spending: {formatCurrency(avgDailySpending)}</h6>
+          </div>
+        </Card.Body>
+      </Card>
+
+      {/* Upcoming Payments - Currently not displayed */}
+      {/* <Card className="shadow-sm">
+        <Card.Header>
+          <h5 className="mb-0">Upcoming Payments</h5>
+        </Card.Header>
+        <Card.Body>
+          <ListGroup variant="flush">
+            {upcomingPayments.map(payment => (
+              <ListGroup.Item key={payment.id} className="d-flex justify-content-between align-items-center">
+                <div className="d-flex align-items-center">
+                  {payment.icon}
+                  <span className="ms-2">{payment.title}</span>
                 </div>
                 <div>
-                  <span className="badge bg-primary rounded-pill">
-                    <FaArrowUp className="me-1" size={10} />
-                    8% vs. last week
-                  </span>
+                  <span className="me-2 text-muted small">{payment.date}</span>
+                  <span className="fw-bold">{formatCurrency(payment.amount)}</span>
                 </div>
-              </div>
-              
-              {/* Weekly spending visualization with enhanced effects */}
-              <div className="weekly-spending mt-4">
-                {weeklyData.map((data, index) => (
-                  <div key={index} className="day-column">
-                    <div 
-                      className={`spending-bar ${data.isActive ? 'active' : ''}`} 
-                      style={{ 
-                        height: `${data.height}px`,
-                        boxShadow: data.isActive ? '0 0 10px var(--primary-color)' : 'none',
-                        transform: data.isActive ? 'scale(1.1)' : 'scale(1)'
-                      }}
-                    ></div>
-                    <span className="day-label">{data.day}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Col>
-        
-        <Col md={5}>
-          <div className="analytics-card h-100">
-            <h3>Upcoming Payments</h3>
-            <div className="analytics-card-content">
-              <div className="upcoming-payments">
-                {upcomingPayments.map((payment) => (
-                  <div key={payment.id} className="payment-item">
-                    <div className="payment-icon">
-                      {payment.icon}
-                    </div>
-                    <div className="payment-details">
-                      <div className="payment-title">{payment.title}</div>
-                      <div className="payment-date">{payment.date}</div>
-                    </div>
-                    <div className="payment-amount">
-                      {formatCurrency(payment.amount)}
-                    </div>
-                  </div>
-                ))}
-                
-                {upcomingPayments.length === 0 && (
-                  <p className="text-light">No upcoming payments</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Card.Body>
+      </Card> */}
     </>
   );
 };
 
-export default DashboardMetrics; 
+export default DashboardMetrics;
