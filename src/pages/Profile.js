@@ -3,7 +3,7 @@ import { Container, Card, Form, Button, Alert, Row, Col, Tab, Nav } from 'react-
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { updateUserProfile } from '../services/api';
-import { FaUser, FaSave, FaSignOutAlt, FaAdjust, FaMoon, FaSun, FaPalette } from 'react-icons/fa';
+import { FaUser, FaSave, FaSignOutAlt, FaMoon, FaSun, FaPalette } from 'react-icons/fa';
 import ThemeToggle from '../components/ThemeToggle';
 
 const Profile = () => {
@@ -291,4 +291,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; 
+export default Profile;

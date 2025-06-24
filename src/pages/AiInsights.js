@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Alert, Tab, Tabs } from 'react-bootstrap';
-import { FaChartLine, FaExclamationTriangle, FaCalendarAlt, FaRobot, FaDownload } from 'react-icons/fa';
+import { FaRobot, FaDownload } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
-import { formatCurrency, formatDate, formatDateRange } from '../utils/formatters';
+import { formatCurrency } from '../utils/formatters';
 import { predictTransactions, detectAnomalies, recommendStockPurchaseDays } from '../services/ai/predictionService';
 import { generateWeeklySummary } from '../services/ai/reportService';
 import { createBackup } from '../services/backupService';
 import '../styles/AIStyles.css';
 
 const AiInsights = () => {
-  const { currentUser, isOnline, aiFeatureEnabled } = useAuth();
+  const { currentUser, aiFeatureEnabled } = useAuth();
   const [incomePredictions, setIncomePredictions] = useState([]);
   const [expensePredictions, setExpensePredictions] = useState([]);
   const [anomalies, setAnomalies] = useState([]);

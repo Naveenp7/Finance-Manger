@@ -1,15 +1,14 @@
-import { 
-  collection, 
-  addDoc, 
-  doc, 
-  deleteDoc, 
-  updateDoc, 
-  getDocs, 
-  query, 
-  where, 
+import {
+  collection,
+  addDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+  getDocs,
+  query,
+  where,
   orderBy,
-  getDoc,
-  setDoc 
+  getDoc
 } from 'firebase/firestore';
 import { db, auth } from './config';
 
@@ -229,4 +228,4 @@ export const getCategories = async (userId) => {
     console.error('Error in getCategories:', error);
     throw error;
   }
-}; 
+};

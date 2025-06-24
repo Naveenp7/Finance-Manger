@@ -6,14 +6,12 @@ import TransactionFilter from '../components/TransactionFilter';
 import { fetchTransactions } from '../services/api';
 import { FaWallet, FaExchangeAlt, FaFileAlt, FaCreditCard, FaChartLine } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
 
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [greeting, setGreeting] = useState('');
-  const { darkMode } = useTheme();
 
   // Set greeting based on time of day
   useEffect(() => {
@@ -202,4 +200,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

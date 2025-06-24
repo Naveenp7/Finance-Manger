@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, Modal, Spinner, Form, Card, Alert } from 'react-bootstrap';
 import { FaCamera, FaTimes, FaCheck, FaUpload, FaSearch } from 'react-icons/fa';
 import { createWorker } from 'tesseract.js';
@@ -8,6 +8,7 @@ import { isNative, takePicture, pickImage } from '../services/capacitorBridge';
 const amountRegex = /(?:total|amount|amt|sum|rs|inr|₹)[\s:]*(\d+(?:\.\d+)?)/i;
 const dateRegex = /(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/;
 const gstRegex = /GST\s*(?:No|Number|#)?[\s:]*([0-9A-Z]+)/i;
+const regex = /\b\d{1,3}(?:[,.]\d{3})*(?:[,.]\d{2})\b/g; // Removed unnecessary escapes
 
 const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
   const [showModal, setShowModal] = useState(false);
@@ -262,7 +263,7 @@ const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
   };
   
   // Handle modal open
-  React.useEffect(() => {
+  useEffect(() => {
     if (showModal && !image && !isNative) {
       startCamera();
     }

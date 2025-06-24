@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Form, Button, Spinner, Tab, Tabs, Card, ListGroup, Badge } from 'react-bootstrap';
-import { FaRobot, FaMicrophone, FaMicrophoneSlash, FaChartLine, FaExclamationTriangle, FaCalendarAlt, FaPaperPlane, FaTimes } from 'react-icons/fa';
+import { Modal, Form, Button, Spinner, Tab, Tabs, Card, ListGroup } from 'react-bootstrap';
+import { FaRobot, FaExclamationTriangle, FaCalendarAlt, FaPaperPlane } from 'react-icons/fa';
 import { aiAgent } from '../services/ai/aiAgentService';
 import { useAuth } from '../context/AuthContext';
 import VoiceInput from './VoiceInput';
@@ -15,7 +15,6 @@ const AIAgentModal = ({ show, onHide }) => {
   const [insights, setInsights] = useState([]);
   const [anomalies, setAnomalies] = useState('');
   const [forecast, setForecast] = useState('');
-  const [summary, setSummary] = useState('');
   const { currentUser } = useAuth();
   const chatEndRef = useRef(null);
   const [isListening, setIsListening] = useState(false);
@@ -128,21 +127,6 @@ const AIAgentModal = ({ show, onHide }) => {
       setForecast('Unable to generate forecast at this time.');
     }
     setLoading(false);
-  };
-
-  const loadSummary = async () => {
-    setLoading(true);
-    try {
-      const response = await aiAgent.getSummary();
-      setSummary(response);
-    } catch (error) {
-      setSummary('Unable to generate summary at this time.');
-    }
-    setLoading(false);
-  };
-
-  const handleVoiceResult = (transcript) => {
-    setInput(transcript);
   };
 
   const QuickActionButton = ({ text, onClick }) => (

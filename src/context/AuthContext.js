@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
 
     // Cleanup subscription
     return unsubscribe;
-  }, [isOnline]); // Refetch when online status changes
+  }, [fetchUserProfile]); // Added fetchUserProfile dependency
 
   // Sign up handler
   const handleSignUp = async (email, password, displayName) => {
@@ -197,4 +197,4 @@ export const AuthProvider = ({ children }) => {
 // Custom hook to use auth context
 export const useAuth = () => {
   return useContext(AuthContext);
-}; 
+};

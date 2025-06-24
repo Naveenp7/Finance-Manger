@@ -11,12 +11,6 @@ const Reports = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [reportType, setReportType] = useState('transactions');
-  const [currentFilters, setCurrentFilters] = useState({});
-
-  // Handle filter changes
-  const handleFilterChange = (filters) => {
-    setCurrentFilters(filters);
-  };
 
   // Generate Excel Report
   const handleExcelExport = async () => {
@@ -150,4 +144,4 @@ const Reports = () => {
   );
 };
 
-export default Reports; 
+export default Reports;

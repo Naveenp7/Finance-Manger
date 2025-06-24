@@ -3,7 +3,6 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import { Button, Modal, Card, Spinner, Alert } from 'react-bootstrap';
 import { FaMicrophone, FaMicrophoneSlash, FaCheck, FaTimes } from 'react-icons/fa';
 import { isNative, startSpeechRecognition, stopSpeechRecognition, addSpeechRecognitionListener, removeSpeechRecognitionListeners } from '../services/capacitorBridge';
-import aiAgentModal from './aiAgentModal';
 
 // Regular expressions for parsing amount
 const amountRegex = /(\d+(?:\.\d+)?)/g;
@@ -62,7 +61,7 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
         );
       }
     };
-  }, [isListening]);
+  }, [isListening, stopNativeSpeechRecognition]);
 
   // Update listening status for web speech
   useEffect(() => {
@@ -273,20 +272,6 @@ const VoiceInput = ({ onTransactionCapture, defaultType, onResult }) => {
     }
     setInterpretedTransaction(null);
     setShowModal(false);
-  };
-
-  const handleVoice = () => {
-    if (!('webkitSpeechRecognition' in window)) {
-      alert('Voice recognition not supported');
-      return;
-    }
-    const recognition = new window.webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      onResult(transcript);
-    };
-    recognition.start();
   };
 
   return (

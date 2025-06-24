@@ -16,7 +16,7 @@ const TransactionFilter = ({ onFilterChange }) => {
   // Apply initial filters when component mounts
   useEffect(() => {
     handleApplyFilters();
-  }, []);
+  }, [handleApplyFilters]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -217,4 +217,4 @@ const TransactionFilter = ({ onFilterChange }) => {
   );
 };
 
-export default TransactionFilter; 
+export default TransactionFilter;

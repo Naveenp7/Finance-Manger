@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Badge, Button, Card, Row, Col } from 'react-bootstrap';
+import { Table, Badge, Button, Card } from 'react-bootstrap';
 import { FaEdit, FaTrash, FaChevronDown, FaChevronUp, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
 const TransactionList = ({ transactions, onEdit, onDelete }) => {
@@ -175,4 +175,4 @@ const TransactionList = ({ transactions, onEdit, onDelete }) => {
   );
 };
 
-export default TransactionList; 
+export default TransactionList;

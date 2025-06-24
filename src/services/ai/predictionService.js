@@ -1,12 +1,9 @@
 import * as tf from '@tensorflow/tfjs';
 import { getTransactionsByDateRange } from '../../firebase/transactionService';
-import { checkTensorFlowAvailability, safeTensor3d, simplePredictionFallback } from '../../utils/tensorflowUtils';
+import { checkTensorFlowAvailability, safeTensor3d } from '../../utils/tensorflowUtils';
 
 // Check if we're in production
 const isProduction = !window.location.hostname.includes('localhost');
-
-// Store TensorFlow availability state
-let tensorFlowDisabled = false;
 
 // Helper function to disable TensorFlow for the session
 const disableTensorFlow = () => {
@@ -17,20 +14,6 @@ const disableTensorFlow = () => {
 // Utility to format date as YYYY-MM-DD
 const formatDate = (date) => {
   return new Date(date).toISOString().split('T')[0];
-};
-
-// Get date n days from now
-const getDateDaysFromNow = (days) => {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return formatDate(date);
-};
-
-// Get date n months from now
-const getDateMonthsFromNow = (months) => {
-  const date = new Date();
-  date.setMonth(date.getMonth() + months);
-  return formatDate(date);
 };
 
 // Function to create simple predictions based on average and trend
@@ -423,15 +406,6 @@ export const predictTransactions = async (userId, type, days = 30) => {
     // Return empty array instead of mock data
     return [];
   }
-};
-
-// Helper to generate prediction dates
-const generatePredictionDates = (days) => {
-  return Array.from({ length: days }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() + i + 1);
-    return formatDate(date);
-  });
 };
 
 // Detect anomalies in transactions
