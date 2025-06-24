@@ -13,13 +13,6 @@ const DashboardMetrics = ({ transactions }) => {
     .filter(t => t.type === 'expense')
     .reduce((sum, t) => sum + t.amount, 0);
     
-  const profit = income - expense;
-  
-  // Get profit percentage (avoid division by zero)
-  const profitPercentage = income > 0 
-    ? ((profit / income) * 100).toFixed(1)
-    : 0;
-
   const incomePercentage = expense + income > 0 
     ? ((income / (expense + income)) * 100).toFixed(0)
     : 0;
@@ -95,28 +88,6 @@ const DashboardMetrics = ({ transactions }) => {
             </div>
           </Card>
         </Col>
-        {/* Profit Card - Currently not displayed */}
-        {/* <Col md={4}>
-          <Card className="summary-card card-3d">
-            <div className="card-3d-inner">
-              <div className="d-flex align-items-center mb-3">
-                <div className="me-3 icon-profit feature-card-icon">
-                  <FaBalanceScale />
-                </div>
-                <div>
-                  <h6 className="text-muted mb-0">Profit</h6>
-                  <h4 className="text-profit mb-0">{formatCurrency(profit)}</h4>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <span className="text-muted small">Net gain/loss</span>
-                <span className={`small ${profit >= 0 ? 'text-success' : 'text-danger'}`}>
-                  {profitPercentage}%
-                </span>
-              </div>
-            </div>
-          </Card>
-        </Col> */}
       </Row>
 
       {/* Weekly Spending Visualization */}

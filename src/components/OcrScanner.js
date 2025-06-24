@@ -6,7 +6,7 @@ import { isNative, takePicture, pickImage } from '../services/capacitorBridge';
 
 // Regular expressions for parsing
 const amountRegex = /(?:total|amount|amt|sum|rs|inr|₹)[\s:]*(\d+(?:\.\d+)?)/i;
-const dateRegex = /(\d{1,2})[\/\-\.\\](\d{1,2})[\/\-\.\\](\d{2,4})/;
+const dateRegex = /(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/;
 const gstRegex = /GST\s*(?:No|Number|#)?[\s:]*([0-9A-Z]+)/i;
 
 const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
@@ -266,7 +266,7 @@ const OcrScanner = ({ onTransactionCapture, defaultType = 'expense' }) => {
     if (showModal && !image && !isNative) {
       startCamera();
     }
-  }, [showModal]);
+  }, [showModal, image]);
   
   return (
     <>

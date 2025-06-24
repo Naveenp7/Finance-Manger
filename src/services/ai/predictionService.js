@@ -663,4 +663,4 @@ const generateSimpleRecommendations = (transactions, daysToLookAhead = 14) => {
     console.error('Error generating simple recommendations:', error);
     return []; // Return empty array instead of mock data
   }
-}; 
+};
